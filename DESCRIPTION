@@ -1,7 +1,7 @@
 Package: msProcess
 Type: Package
 Title: Protein Mass Spectra Processing
-Version: 1.0.7
+Version: 1.0.8
 Date: 2011-02-07
 Author: Lixin Gong, William Constantine, and Yu Alex Chen
 Maintainer: Sergio Oller <soller@ibecbarcelona.eu>
