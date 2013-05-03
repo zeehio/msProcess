@@ -339,7 +339,7 @@ if (length(events.only) > 0){
 
 "msAssign" <- function(x, value, envir){
 
-  if (is.R()) assign(x, value, envir=envir) else assign(x, value, frame=envir)
+  if (is.R()) assign(x, value, envir=envir) else assign(x, value, envir=envir)
   invisible(NULL)
 }
 
@@ -358,7 +358,7 @@ if (length(events.only) > 0){
 
 "msGet" <- function(x, envir){
 
-  if (is.R()) get(x, envir=envir) else get(x, frame=envir)
+  if (is.R()) get(x, envir=envir) else get(x, envir=envir)
 }
 
 ###

@@ -63,7 +63,7 @@
 
   } else {
 
-    z <- parseXMLPathFile(x, xpaths, delimiter=" \t\n,")
+    z <- XML::parseXMLPathFile(x, xpaths, delimiter=" \t\n,")
   }
 
   names(z) <- allnames

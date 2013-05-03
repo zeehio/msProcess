@@ -714,8 +714,8 @@ if (is.R()){
   }
 
 #  main <- paste(process, "for", deparse(substitute(x)))
-  msPlot(matlines=z$matlines, matpoints=z$matpoints, abline=z$abline,
-    text=z$text, main=main, xlab=xlab, ylab="intensity", offset=offset, ...)
+  msPlot(matlines.=z$matlines, matpoints.=z$matpoints, abline.=z$abline,
+    text.=z$text, main=main, xlab=xlab, ylab="intensity", offset=offset, ...)
   invisible(x)
 }
 

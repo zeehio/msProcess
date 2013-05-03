@@ -81,7 +81,7 @@ function(name, pattern, path, mz, tof=FALSE, maxRows=10000,  append=TRUE, verbos
              N="spectrum/tofData/tofDataNumSamples/text()",
              time0="spectrum/tofData/tofDataTimeZero/text()",
              data="spectrum/tofData/tofDataSamples/text()")
-    v <- parseXMLPathFile(name, nodeList, default=NA, delimiter=" \t\n,")
+    v <- XML::parseXMLPathFile(name, nodeList, default=NA, delimiter=" \t\n,")
     names(v) <- names(nodeList)
     if (length(v$time0)==0) v$time0=0
     lv <- sapply(v, function(x) length(x)!=1)
@@ -93,7 +93,7 @@ function(name, pattern, path, mz, tof=FALSE, maxRows=10000,  append=TRUE, verbos
     # for processedData: use mz directly
     nodeList <-
       list(mzdata="spectrum/processedData/processedDataSamples/text()")
-    vx <- parseXMLPathFile(name, nodeList, default=NA, delimiter=" \t\n,")
+    vx <- XML::parseXMLPathFile(name, nodeList, default=NA, delimiter=" \t\n,")
     if (length(vx[[1]])==0)
       stop ("no processed data are found in ", name, ". Please set TOF to be TRUE.")
     v <- vector(length=2, mode="list")
@@ -144,7 +144,7 @@ path=".", category=NULL, verbose=1, ...)
   if (verbose>0)
   	cat("scanning list of XML files ...\n")
   mzR <- sapply(x, function(x, nodeList) {
-      v <- parseXMLPathFile(x, nodeList, default=NA, delimiter=" \t\n,")
+      v <- XML::parseXMLPathFile(x, nodeList, default=NA, delimiter=" \t\n,")
       names(v) <- names(nodeList)
       if (length(v$time0)==0) v$time0=0
       lv <- sapply(v, function(x) length(x)!=1)
@@ -158,7 +158,7 @@ path=".", category=NULL, verbose=1, ...)
   iMax <- which.min(mzR[2,])
 
   # now map back to time domain to get the actual mz range:
-  v <- parseXMLPathFile(x[iMin], nodeList, default=NA, delimiter=" \t\n,")
+  v <- XML::parseXMLPathFile(x[iMin], nodeList, default=NA, delimiter=" \t\n,")
   names(v) <- names(nodeList)
   v <- lapply(v, function(x) as.numeric(unlist(x)[1]))
   ts <- seq(from=v$time0-v$t0, to=sqrt((mzR[2, iMax]/v$u-v$b)/v$a), by=1/v$Fs)
@@ -234,12 +234,12 @@ function(conn, path, tablename, columnID,
     flist <- flist[oo]
     newConn <- !is(conn, "DBIConnection")
     if (newConn) {
-    	dbinit <- dbDriver("SQLite")
-    	conn <- dbConnect(dbinit, dbname = conn)
+    	dbinit <- DBI::dbDriver("SQLite")
+    	conn <- DBI::dbConnect(dbinit, dbname = conn)
     }
     ans <- TRUE
-    if (dbExistsTable(conn, tablename) & !append) {
-        ans <- dbRemoveTable(conn, tablename)
+    if (DBI::dbExistsTable(conn, tablename) & !append) {
+        ans <- DBI::dbRemoveTable(conn, tablename)
     }
     # read flist one by one and append to tablename in conn
     if (ans) {
@@ -248,12 +248,12 @@ function(conn, path, tablename, columnID,
 	            d <- readBinMatrix(f, ncol=length(columnID), what=what, ...)
 	            if (verbose) cat (f, ": Dim=", dim(d), "\n")
 	            colnames(d) <- columnID
-	            dbWriteTable(conn, tablename, data.frame(d), overwrite=(f==f1),
+	            DBI::dbWriteTable(conn, tablename, data.frame(d), overwrite=(f==f1),
 	            	append=(f!=f1), row.names=FALSE, ...)
 	        }, conn, tablename, columnID, what=what, flist[1], verbose, ...))
     }
     if(newConn)
-    	dbDisconnect(newConn)
+    	DBI::dbDisconnect(newConn)
     return (ans)
 }
 
@@ -360,7 +360,7 @@ function (xmldir, dbname, tablename, tof = FALSE, maxRows = 10000, maxCols = NUL
     rc <- try(importBin2Sqlite(conn = dbname, path = tmpdir, tablename = tablename,
         sampleTable = p$sampleTable, categoryTable = p$categoryTable,
         verbose = verbose-1, ...))
-    ans <- !inherits(rc, ErrorClass)
+    ans <- !inherits(rc, XML::ErrorClass)
     if (ans) {
  	    tmpfiles <- dir(tmpdir,
     		pattern=paste("^", tablename, "[0-9]*\\.[0-9]+$", sep=""), full.names=TRUE)

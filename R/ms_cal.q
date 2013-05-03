@@ -102,8 +102,8 @@
     lmRobMM = lmRob(mz~poly(tof, 2), data=x),
     ltsreg  = ltsreg(mz~poly(tof, 2), data=x),
     lmsreg  = lmsreg(mz~poly(tof, 2), data=x),
-    l1fit   = l1fit(y=mz, x=poly(tof, 2)),
-    rreg    = rreg(y=mz, x=poly(tof, 2)))
+    l1fit   = quantreg::rq(mz~poly(tof, 2), tau = 0.5),
+    rreg    = MASS::rlm(mz~poly(tof, 2)))
 
   # recover the coefficient from the orthogonal to simple polynomial form
   # mz = coefficients[1] + coefficients[2]*tof + coefficients[3]*tof^2

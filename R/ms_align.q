@@ -104,7 +104,7 @@ if (is.R()) {
   clust.tree <- hclust(dist(logmz[peak.unique], method="euclidean"),
     method="complete")
 } else {
-  clust.tree <- hclust(dist(logmz[peak.unique], metric="euclidean"),
+  clust.tree <- hclust(dist(logmz[peak.unique], method="euclidean"),
     method="compact")
 }
   # peak.group
@@ -150,7 +150,7 @@ if (is.R()) {
   # calculate first derivative approximation of smoothed histogram
   crystal <- paste("d", level-2, sep="")
   dpeak.hist.smoothed <- wavShift(wavMODWT(peak.hist.smoothed,
-    wavelet="haar", n.level=level-2))[[crystal]]
+    wavelet="haar", n.levels=level-2))[[crystal]]
 
   # find local minima
   inadirs <- zeroCross(dpeak.hist.smoothed, "positive")

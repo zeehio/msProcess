@@ -220,8 +220,8 @@
   # second derivative of D by forming (approximate) zero phase
   # shifted versions of the MODWT(D) coefficients using the
   # Haar and D4 wavelets, respectively.
-  W1D <- wavShift(wavMODWT(y, wavelet="haar", n.level=n.level))[[crystal]]
-  W2D <- wavShift(wavMODWT(y, wavelet="d4", n.level=n.level))[[crystal]]
+  W1D <- wavShift(wavMODWT(y, wavelet="haar", n.levels=n.level))[[crystal]]
+  W2D <- wavShift(wavMODWT(y, wavelet="d4", n.levels=n.level))[[crystal]]
 
   # find the zero crossings of the first derivative approximation of D
   # corresponding to local maxima in D. subject the result to a second
